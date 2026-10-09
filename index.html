@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>یه آهنگ برات</title>
+<title>A Song For You</title>
 <style>
   html, body {
     margin: 0;
@@ -26,8 +26,8 @@
   .card {
     background: #ffffff;
     border-radius: 28px;
-    padding: 40px 28px;
-    max-width: 380px;
+    padding: 38px 26px 32px;
+    max-width: 360px;
     width: 100%;
     text-align: center;
     box-shadow: 0 20px 50px rgba(194, 24, 91, 0.18);
@@ -36,34 +36,92 @@
   }
 
   .heart {
-    font-size: 46px;
+    font-size: 44px;
     line-height: 1;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   h1 {
-    font-size: 20px;
+    font-size: 19px;
     color: #ad1457;
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     font-weight: bold;
   }
 
   p {
-    font-size: 15px;
+    font-size: 14px;
     color: #7b1fa2;
     line-height: 1.9;
-    margin: 0 0 24px 0;
+    margin: 0 0 22px 0;
   }
 
-  audio {
+  /* ===== Custom Player ===== */
+  .player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #fdf0f5;
+    border: 1px solid #f8bbd0;
+    border-radius: 50px;
+    padding: 10px 16px 10px 10px;
+    box-sizing: border-box;
+  }
+
+  .play-btn {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f06292, #ba68c8);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(240, 98, 146, 0.4);
+    transition: transform 0.15s ease;
+    padding: 0;
+  }
+
+  .play-btn:active {
+    transform: scale(0.93);
+  }
+
+  .track {
+    flex: 1;
+    text-align: left;
+  }
+
+  .bar {
     width: 100%;
-    margin-top: 4px;
-    display: block;
+    height: 6px;
+    background: #f8bbd0;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #f06292, #ba68c8);
+    border-radius: 10px;
+    transition: width 0.1s linear;
+  }
+
+  .time {
+    font-size: 11px;
+    color: #ad1457;
+    margin-top: 5px;
+    text-align: left;
   }
 
   .footer {
-    margin-top: 24px;
-    font-size: 13px;
+    margin-top: 22px;
+    font-size: 12px;
     color: #ba68c8;
   }
 </style>
@@ -72,28 +130,88 @@
 
   <div class="card">
     <div class="heart">💖</div>
-    <h1>یه آهنگ برات</h1>
-    <p>پیام خودت اینجا</p>
+    <h1>A Song For You</h1>
+    <p>Your message here</p>
 
-    <audio id="mySong" controls autoplay loop>
+    <div class="player">
+      <button class="play-btn" id="playBtn">▶</button>
+      <div class="track">
+        <div class="bar" id="bar">
+          <div class="bar-fill" id="barFill"></div>
+        </div>
+        <div class="time" id="time">0:00 / 0:00</div>
+      </div>
+    </div>
+
+    <div class="footer">🎧 Think of me when you listen</div>
+
+    <audio id="mySong" loop>
       <source src="Harvey-Hers.mp3" type="audio/mpeg">
-      مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+      Your browser does not support the audio element.
     </audio>
-
-    <div class="footer">🎧 با گوش دادنش یاد من بیفت</div>
   </div>
 
   <script>
-    var audio = document.getElementById('mySong');
+    var audio   = document.getElementById('mySong');
+    var playBtn = document.getElementById('playBtn');
+    var bar     = document.getElementById('bar');
+    var barFill = document.getElementById('barFill');
+    var timeEl  = document.getElementById('time');
 
-    function tryPlay() {
-      if (audio) {
-        audio.play().catch(function () {});
+    function fmt(sec) {
+      if (isNaN(sec)) return '0:00';
+      var m = Math.floor(sec / 60);
+      var s = Math.floor(sec % 60);
+      if (s < 10) s = '0' + s;
+      return m + ':' + s;
+    }
+
+    function updateUI() {
+      if (audio.duration) {
+        var pct = (audio.currentTime / audio.duration) * 100;
+        barFill.style.width = pct + '%';
+        timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
       }
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play().catch(function () {});
+      } else {
+        audio.pause();
+      }
+    }
+
+    playBtn.addEventListener('click', togglePlay);
+
+    audio.addEventListener('play', function () {
+      playBtn.textContent = '❚❚';
+      playBtn.style.fontSize = '15px';
+    });
+
+    audio.addEventListener('pause', function () {
+      playBtn.textContent = '▶';
+      playBtn.style.fontSize = '18px';
+    });
+
+    audio.addEventListener('timeupdate', updateUI);
+    audio.addEventListener('loadedmetadata', updateUI);
+
+    // Click on the bar to seek
+    bar.addEventListener('click', function (e) {
+      var rect = bar.getBoundingClientRect();
+      var ratio = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = ratio * audio.duration;
+      }
+    });
+
+    // Try to autoplay on first touch/click
+    function tryPlay() {
+      audio.play().catch(function () {});
       document.removeEventListener('touchstart', tryPlay);
       document.removeEventListener('click', tryPlay);
     }
-
     document.addEventListener('touchstart', tryPlay);
     document.addEventListener('click', tryPlay);
   </script>
