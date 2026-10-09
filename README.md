@@ -1,2 +1,2 @@
 # Sania-Khanom
-For The person who made my life beautiful.
+For The person who made Sams life beautiful.
