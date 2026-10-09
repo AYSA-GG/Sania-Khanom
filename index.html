@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>یه آهنگ برات</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Tahoma, Arial, sans-serif;
+    background: #fce4ec;
+    background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #e1bee7 100%);
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 40px 28px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(194, 24, 91, 0.18);
+    border: 1px solid #f8bbd0;
+    box-sizing: border-box;
+  }
+
+  .heart {
+    font-size: 46px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 20px;
+    color: #ad1457;
+    margin: 0 0 12px 0;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 15px;
+    color: #7b1fa2;
+    line-height: 1.9;
+    margin: 0 0 24px 0;
+  }
+
+  audio {
+    width: 100%;
+    margin-top: 4px;
+    display: block;
+  }
+
+  .footer {
+    margin-top: 24px;
+    font-size: 13px;
+    color: #ba68c8;
+  }
+</style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="heart">💖</div>
+    <h1>یه آهنگ برات</h1>
+    <p>پیام خودت اینجا</p>
+
+    <audio id="mySong" controls autoplay loop>
+      <source src="C:\Users\win 10\Desktop\Harvey-Hers.mp3" type="audio/mpeg">
+      مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+    </audio>
+
+    <div class="footer">🎧 با گوش دادنش یاد من بیفت</div>
+  </div>
+
+  <script>
+    var audio = document.getElementById('mySong');
+
+    function tryPlay() {
+      if (audio) {
+        audio.play().catch(function () {});
+      }
+      document.removeEventListener('touchstart', tryPlay);
+      document.removeEventListener('click', tryPlay);
+    }
+
+    document.addEventListener('touchstart', tryPlay);
+    document.addEventListener('click', tryPlay);
+  </script>
+
+</body>
+</html>
