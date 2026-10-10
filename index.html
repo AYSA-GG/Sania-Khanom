@@ -18,20 +18,38 @@
     justify-content: center;
     font-family: Tahoma, Arial, sans-serif;
 
-    /* ===== Responsive background image (like the first version) ===== */
-    background-image: url('pic.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #292727;    /* fills any empty sides */
+    /* Solid dark background for the side bars */
+    background: #292727;
 
     padding: 20px;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
   }
 
-  /* ===== Glassmorphism card (no border, no overlay) ===== */
+  /* ===== Full 9:16 image, never stretched ===== */
+  .bg-image {
+    position: fixed;
+    inset: 0;
+    background-image: url('pic.jpg');
+    background-size: contain;      /* keeps full image visible */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #292727;     /* fills the empty sides */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Very light overlay so text stays readable */
+  .bg-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(41, 39, 39, 0.2);
+    pointer-events: none;
+  }
+
+  /* ===== Glassmorphism card (no white border) ===== */
   .card {
     position: relative;
     z-index: 1;
@@ -44,9 +62,9 @@
     width: 100%;
     text-align: center;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-    border: none;
+    border: none;                 /* removed white border */
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 10px;          /* small breathing room from bottom */
   }
 
   .heart {
@@ -143,16 +161,12 @@
     color: #e1bee7;
     text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
   }
-
-  /* On phones, let the image fill properly */
-  @media (max-width: 600px) {
-    body {
-      background-attachment: scroll;
-    }
-  }
 </style>
 </head>
 <body>
+
+  <!-- Full 9:16 background image, never stretched -->
+  <div class="bg-image"></div>
 
   <div class="card">
     <div class="heart">💖</div>
