@@ -14,7 +14,7 @@
   body {
     min-height: 100vh;
     display: flex;
-    align-items: flex-end;        /* card sits at the bottom */
+    align-items: flex-start;      /* card sits at the TOP */
     justify-content: center;
     font-family: Tahoma, Arial, sans-serif;
 
@@ -27,7 +27,7 @@
     overflow: hidden;
   }
 
-  /* ===== Full 9:16 image, never stretched ===== */
+  /* ===== Full 9:16 image (1080x1920), never stretched ===== */
   .bg-image {
     position: fixed;
     inset: 0;
@@ -40,16 +40,7 @@
     pointer-events: none;
   }
 
-  /* Very light overlay so text stays readable */
-  .bg-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(41, 39, 39, 0.2);
-    pointer-events: none;
-  }
-
-  /* ===== Glassmorphism card (no white border) ===== */
+  /* ===== Glassmorphism card (no border, no overlay) ===== */
   .card {
     position: relative;
     z-index: 1;
@@ -62,9 +53,9 @@
     width: 100%;
     text-align: center;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-    border: none;                 /* removed white border */
+    border: none;
     box-sizing: border-box;
-    margin-bottom: 10px;          /* small breathing room from bottom */
+    margin-top: 10px;             /* small breathing room from top */
   }
 
   .heart {
